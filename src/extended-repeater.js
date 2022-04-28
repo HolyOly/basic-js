@@ -15,23 +15,51 @@ const { NotImplementedError } = require('../extensions/index.js');
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(/*str, options*/) {
-  throw new NotImplementedError('Not implemented');
+function repeater(str, options) {
+  //throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
 
-  options.separator = '+'; 
-  options.additionSeparator = '|';
+  if (options.separator == undefined) {
+    options.separator = '+';
+  }
+  if (options.additionSeparator == undefined) {
+    options.additionSeparator = '|';
+  }
+  if (typeof str == Object) { //options.addition == objWithSpecificCoercion || 
+    //str = 'STRING_OR_DEFAULT';
+    function fun() {
+    }
+    
+    fun[Symbol.toPrimitive] = function (hint) {
+        switch(hint) {
+            case "string": return "all right";
+            case "number": return 100;
+            default: return "something else";
+        }
+    };
+  }
+  if (typeof options.addition == Object) { //options.addition == objWithSpecificCoercion || 
+    //options.addition = 'STRING_OR_DEFAULT';
+
+    function fun() {
+    }
+    
+    fun[Symbol.toPrimitive] = function (hint) {
+        switch(hint) {
+            case "string": return "all right";
+            case "number": return 100;
+            default: return "something else";
+        }
+    };
+  }
   let result = '';
-  // if (!str) {
-  //     return ;
-  // }
   let substr = '';
   let addSepAndAdd = '';
   let substrWithSep = '';
   typeof(str) === 'string' ? str : str = str+``;
-  typeof(options.addition) === 'string' ? options.addition : options.addition = options.addition+``;
-  typeof(options.separator) === 'string' ? options.separator : options.separator = options.separator+``;
-  typeof(options.additionSeparator) === 'string' ? options.additionSeparator : options.separator = options.additionSeparator+``;
+  typeof(options.addition) === 'string' ? options.addition : options.addition+``;
+  typeof(options.separator) === 'string' ? options.separator : options.separator+``;
+  typeof(options.additionSeparator) === 'string' ? options.additionSeparator : options.additionSeparator+``;
 
   if (options.repeatTimes > 0 && options.additionRepeatTimes > 0) {
       addSepAndAdd = options.addition + options.additionSeparator; //ADDITION|
@@ -40,16 +68,29 @@ function repeater(/*str, options*/) {
       substrWithSep = str + addSepAndAdd + options.separator;//dufgADDITION|ADDITION|ADDITION+
       result = substrWithSep.repeat(options.repeatTimes - 1) + substr
   }
-  if (options.repeatTimes > 0 && (options.additionRepeatTimes == null || options.additionRepeatTimes == undefined)) {
+  if (options.repeatTimes > 0 && options.additionRepeatTimes == undefined) {
     addSepAndAdd = options.addition + options.additionSeparator; //ADDITION|
     addSepAndAdd = addSepAndAdd  + options.addition; // ADDITION|ADDITION|ADDITION ??
     substr = str + addSepAndAdd; // dufgADDITION|ADDITION|ADDITION
     substrWithSep = str + addSepAndAdd + options.separator;//dufgADDITION|ADDITION|ADDITION+
     result = substrWithSep.repeat(options.repeatTimes - 1) + substr
+  }
+  if (options.repeatTimes > 0 && options.additionRepeatTimes == undefined && options.addition == undefined) {
+      substr = str; // la
+      substrWithSep = str + options.separator;//la+
+      result = substrWithSep.repeat(options.repeatTimes - 1) + substr //la+la
+  }
+  if (options.repeatTimes > 0 && options.additionRepeatTimes == undefined && options.addition) {
+    substr = str + options.addition; // STRING_OR_DEFAULTSTRING_OR_DEFAULT
+    substrWithSep = substr + options.separator;//STRING_OR_DEFAULTSTRING_OR_DEFAULT+
+    result = substrWithSep.repeat(options.repeatTimes - 1) + substr //STRING_OR_DEFAULTSTRING_OR_DEFAULT+STRING_OR_DEFAULTSTRING_OR_DEFAULT
 }
-  //options.addition = d;
   
- return result;
+  if (options.repeatTimes == undefined && options.additionRepeatTimes == undefined) {
+      substr = str; // 'TESTstr'
+      result = substr + options.addition //la+la
+  }
+  return result;
 }
 
 module.exports = {
