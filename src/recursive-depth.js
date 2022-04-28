@@ -16,7 +16,26 @@ class DepthCalculator {
   calculateDepth(/*arr*/) {
     throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
+    //let sum = 1;
+    
+    // let count = Array.isArray(arr) ? 1 : 0;
 
+    // for (let i = 0; i < arr.length; i++) {
+    //   if (Array.isArray(arr[i])) {
+    //     count++;
+    //     arr = arr.flat();
+
+    //   }
+    //   else {
+    //     count;
+    //   }
+    // }
+    // return count;
+
+    if (Array.isArray(arr)) {
+      return arr.reduce((prev, current) => prev + calculateDepth(current), 0);
+    } 
+    //return sum
     
 
   }
