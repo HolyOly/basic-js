@@ -5,26 +5,53 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 const chainMaker = {
-  getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  },
-  reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  },
-  finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  chain: [],
+    getLength() { //возвращает текущую длину цепи в виде числа;
+        return this.chain.length;
+        //return this.chain.length
+    },
+    addLink(value) { //добавляет звено, содержащее строковое представление value к цепочке;
+        
+        if (value === null) {
+            value = `null`
+        }
+        else if (value === undefined) {
+            value = ``;
+        }
+        else if (value === Infinity) {
+          value = `Infinity`;
+        }
+        // else if (typeof value == 'boolean' || typeof value == 'object' || typeof value == 'number' || typeof value == 'symbol') {
+        //     value.toString();
+        // }
+        value.toString();
+        this.chain.push(`~( ${value} )~`)
+        return this
+        
+    },
+    removeLink(position) {//удаляет звено цепи, находящееся в заданном положении;
+        if (!Number.isInteger(position) || position <= 0 || typeof position != "number" || position > this.chain.length) {
+            throw Error("You can't remove incorrect link!");
+        }
+        else {
+            this.chain.splice(position - 1, 1);
+            //return this;
+            return this
+        } 
+        
+    },
+    reverseChain() {//разворачивает цепь задом наперед;
+        this.chain.reverse();
+        return this;
+    },
+    finishChain() {//завершает цепь и возвращает ее.;
+        this.str = this.chain.join('');
+        // if (this.str[0] === '~') {
+        //     this.str.substring(1);
+        //     return this.str.substring(0, this.str.length - 1);
+        // }
+        return `${this.str.slice(1, -1).toString()}`;
+    }
 };
 
 module.exports = {
