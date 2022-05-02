@@ -31,13 +31,15 @@ const chainMaker = {
     },
     removeLink(position) {//удаляет звено цепи, находящееся в заданном положении;
         if (!Number.isInteger(position) || position <= 0 || typeof position != "number" || position > this.chain.length) {
-            throw Error("You can't remove incorrect link!");
+            this.chain = [];
+            throw new Error("You can't remove incorrect link!");
         }
         else {
             this.chain.splice(position - 1, 1);
             //return this;
             return this
-        } 
+        }
+       
         
     },
     reverseChain() {//разворачивает цепь задом наперед;
